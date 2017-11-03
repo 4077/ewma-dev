@@ -1,7 +1,7 @@
 {
-    "name": "fed/access",
+    "name": "fed/dev",
     "type": "ewma-module",
-    "description": "ewma access",
+    "description": "ewma dev",
     "authors": [
         {
             "name": "fed",
