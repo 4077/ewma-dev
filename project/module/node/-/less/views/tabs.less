@@ -1,0 +1,62 @@
+// head {
+@import "../../../../../-/less/common.less";
+// }
+
+#dev_project_module_node_tabs {
+    background-color: #404040;
+
+    .tab {
+        cursor: pointer;
+        float: left;
+        margin: 0;
+        padding: 5px 15px;
+        color: #BBBBBB;
+
+        &.has_file {
+            color: #FFFFFF;
+        }
+
+        &.selected {
+
+            &.controller {
+                background-color: @controllers_color;
+                color: #ffffff;
+            }
+
+            &.js {
+                background-color: @js_color;
+                color: #ffffff;
+            }
+
+            &.css {
+                background-color: @css_color;
+                color: #ffffff;
+            }
+
+            &.less {
+                background-color: @less_color;
+                color: #ffffff;
+            }
+
+            &.template {
+                background-color: @templates_color;
+                color: @templates_dark_color;
+            }
+
+            &.session {
+                background-color: @session_color;
+                color: #ffffff;
+            }
+
+            &.storage {
+                background-color: @storage_color;
+                color: #ffffff;
+            }
+        }
+
+        &.hover {
+            background-color: #808080;
+            color: #ffffff;
+        }
+    }
+}

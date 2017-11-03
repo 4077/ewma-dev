@@ -1,0 +1,262 @@
+// head {
+@import "../../../../../-/less/common.less";
+// }
+
+#dev_project_module_nav_nodes_tree {
+
+    .generators_dialog_button {
+        cursor: pointer;
+        padding: 10px;
+        color: #b2b2b2;
+        background-color: #ffffff;
+        text-align: center;
+
+        &.hover {
+            background-color: #404040;
+            color: #BDFF00;
+        }
+    }
+
+    .nodes {
+        margin: 0;
+        background-color: #ffffff;
+        font-size: 13px;
+    }
+
+    .node {
+        position: relative;
+        min-height: 22px;
+
+        .indent {
+            float: left;
+            height: 28px;
+
+            .icon {
+                float: right;
+                margin: 6px 0px 0 0;
+                width: 16px;
+                height: 16px;
+                background: url("../images/icons_454545.png") repeat scroll 16px 16px transparent;
+
+                &.r_arrow {
+                    background-position: -32px -16px;
+                }
+
+                &.rd_arrow {
+                    background-position: -48px -16px;
+                }
+            }
+
+            &.clickable {
+                cursor: pointer;
+
+                &.hover {
+                    background-color: #eeeeee;
+                }
+            }
+        }
+
+        .name {
+            position: relative;
+            cursor: pointer;
+            padding: 7px 5px;
+            height: 14px;
+            min-height: 14px;
+            color: #909090;
+
+            &.hover {
+                text-decoration: underline;
+            }
+        }
+
+        &.current {
+            font-weight: bold;
+        }
+
+        &.has_files {
+
+            .name {
+                color: #000000;
+            }
+        }
+
+        .buttons {
+            position: absolute;
+            right: 0;
+
+            .open_view_button {
+                cursor: pointer;
+                float: left;
+                width: 28px;
+                height: 28px;
+                opacity: 0.4;
+
+                .circle {
+                    margin: 11px;
+                    width: 7px;
+                    height: 7px;
+                    background-color: #E0E0E0;
+                    border-radius: 4px;
+
+                    &.has_data {
+                        margin: 8px;
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 8px;
+
+                        &.controller {
+                            background-color: @controllers_color;
+                        }
+
+                        &.js {
+                            background-color: @js_color;
+                        }
+
+                        &.css {
+                            background-color: @css_color;
+                        }
+
+                        &.less {
+                            background-color: @less_color;
+                        }
+
+                        &.template {
+                            background-color: @templates_color;
+                        }
+
+                        &.session {
+                            background-color: @session_color;
+                            color: #ffffff;
+                        }
+
+                        &.storage {
+                            background-color: @storage_color;
+                            color: #ffffff;
+                        }
+                    }
+
+                    &.session, &.storage {
+                        margin: 5px;
+                        width: 17px;
+                        height: 17px;
+                        line-height: 15px;
+                        border-radius: 4px;
+                        text-align: center;
+                        font-weight: normal;
+                    }
+                }
+
+                &.selected {
+                    opacity: 1;
+
+                    .circle {
+                        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.60) inset;
+
+                        &.session, &.storage {
+
+                            &.session {
+                                background-color: @session_color;
+                            }
+
+                            &.storage {
+                                background-color: @storage_color;
+                            }
+
+                            color: #ffffff;
+                        }
+                    }
+                }
+
+                &.hover {
+                    background-color: #c8c8c8;
+
+                    .circle {
+
+                        &.controller {
+                            background-color: @controllers_dark_color;
+                        }
+
+                        &.js {
+                            background-color: @js_dark_color;
+                        }
+
+                        &.css {
+                            background-color: @css_dark_color;
+                        }
+
+                        &.less {
+                            background-color: @less_dark_color;
+                        }
+
+                        &.template {
+                            background-color: @templates_dark_color;
+                        }
+
+                        &.has_data {
+
+                            &.controller {
+                                background-color: @controllers_pale_color;
+                            }
+
+                            &.js {
+                                background-color: @js_pale_color;
+                            }
+
+                            &.css {
+                                background-color: @css_pale_color;
+                            }
+
+                            &.less {
+                                background-color: @less_pale_color;
+                            }
+
+                            &.template {
+                                background-color: @templates_pale_color;
+                            }
+                        }
+                    }
+
+                    &.controller {
+                        background-color: @controllers_color;
+                    }
+
+                    &.js {
+                        background-color: @js_color;
+                    }
+
+                    &.css {
+                        background-color: @css_color;
+                    }
+
+                    &.less {
+                        background-color: @less_color;
+                    }
+
+                    &.template {
+                        background-color: @templates_color;
+                    }
+                }
+            }
+        }
+
+        &.hover {
+
+            .buttons {
+
+                .open_view_button {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+
+    &.hover {
+
+        .node {
+
+            .name {
+                position: static;
+            }
+        }
+    }
+}

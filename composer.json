@@ -1,0 +1,17 @@
+{
+    "name": "fed/access",
+    "type": "ewma-module",
+    "description": "ewma access",
+    "authors": [
+        {
+            "name": "fed",
+            "email": "ewmafw@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "fed/ewma-module-installer-plugin": "~0.0.1",
+        "fed/dialogs": "^0.0",
+        "fed/ui": "^0.0"
+    }
+}
