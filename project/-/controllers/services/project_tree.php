@@ -55,40 +55,50 @@ class Project_tree extends \Controller
 
         $this->modulesPathsFoundOnUpdateCache[] = $modulePath;
 
-        $moduleDir = abs_path($modulePath ? 'modules' : '', $modulePath);
+        $node = [];
 
-        $node['-']['settings'] = ['type' => 'master'];
+        if ($module = $this->app->modules->getByPath($modulePath)) {
+            $modulesDir = $module->location == 'local'
+                ? 'modules'
+                : 'modules-vendor';
 
-        if ($modulePathArray) {
-            ra($node['-']['settings'], $this->getModuleSettings($moduleDir));
-        }
+            $moduleDir = abs_path($modulePath ? $modulesDir : '', $modulePath);
 
-        $node['-']['nodes'] = $this->getModuleNodesTree($moduleDir);
-        $node['-']['models'] = $this->getModuleModelsTree($moduleDir);
+            $node['-']['settings'] = ['type' => 'master'];
 
-        $nestedModulesDir = $modulePath ? $moduleDir : abs_path('modules');
-
-        $names = [];
-
-        foreach (new \DirectoryIterator($nestedModulesDir) as $fileInfo) {
-            if ($fileInfo->isDot()) {
-                continue;
+            if ($modulePathArray) {
+                ra($node['-']['settings'], $this->getModuleSettings($moduleDir));
             }
 
-            if ($fileInfo->isDir()) {
-                $fileName = $fileInfo->getFilename();
-                if ($fileName != '-') {
-                    $names[] = $fileName;
+            $node['-']['nodes'] = $this->getModuleNodesTree($moduleDir);
+            $node['-']['models'] = $this->getModuleModelsTree($moduleDir);
+
+            $nestedModulesDir = $modulePath ? $moduleDir : abs_path('modules');
+
+            $names = [];
+
+            foreach (new \DirectoryIterator($nestedModulesDir) as $fileInfo) {
+                if ($fileInfo->isDot()) {
+                    continue;
+                }
+
+                if ($fileInfo->isDir()) {
+                    $fileName = $fileInfo->getFilename();
+                    if ($fileName != '-') {
+                        $names[] = $fileName;
+                    }
                 }
             }
-        }
 
-        sort($names);
+            sort($names);
 
-        foreach ($names as $fileName) {
-            $modulePathArray[] = $fileName;
-            $node[$fileName] = $this->updateCacheRecursion($modulePathArray);
-            array_pop($modulePathArray);
+            foreach ($names as $fileName) {
+                $modulePathArray[] = $fileName;
+
+                $node[$fileName] = $this->updateCacheRecursion($modulePathArray);
+
+                array_pop($modulePathArray);
+            }
         }
 
         return $node;

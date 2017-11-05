@@ -25,7 +25,9 @@ abstract class Template extends \Controller
 
     public function get_module_path()
     {
-        return $this->app->modules->getDir($this->module_path);
+        if ($module = $this->app->modules->getByPath($this->module_path)) {
+            return $module->getDir();
+        }
     }
 
     public function get_node_id()
