@@ -23,8 +23,8 @@ class Main extends \Controller
     private function getUis()
     {
         return [
-            'css' => '\ewma\css\ui~:view',
-            'js'  => '\ewma\js\ui~:view',
+            'css' => '\ewma\ui\css~:view',
+            'js'  => '\ewma\ui\js~:view',
         ];
     }
 }
