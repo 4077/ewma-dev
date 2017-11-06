@@ -2,8 +2,12 @@
 
 class Main extends \Controller
 {
+    private $module;
+
     private $modulePath;
+
     private $nodePath;
+
     private $view;
 
     public function __create()
@@ -12,6 +16,8 @@ class Main extends \Controller
         $sProjectMain = $this->s('^');
 
         $this->modulePath = $sProjectMain['current_module_path'];
+        $this->module = $this->app->modules->getByPath($this->modulePath);
+
         $this->view = $s['current_view'];
 
         if (isset($s['current_path_by_module'][$this->modulePath])) {
@@ -174,7 +180,11 @@ class Main extends \Controller
 
     private function getFilePath()
     {
-        $filePath = abs_path($this->modulePath ? 'modules/' . $this->modulePath : '', '-', $this->getTypeDir(), $this->nodePath . '.' . $this->getExtension());
+        $modulesDir = $this->module->location == 'local'
+            ? 'modules'
+            : 'modules-vendor';
+
+        $filePath = abs_path($this->modulePath ? $modulesDir . '/' . $this->modulePath : '', '-', $this->getTypeDir(), $this->nodePath . '.' . $this->getExtension());
 
         return $filePath;
     }
