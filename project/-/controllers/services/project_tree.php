@@ -48,19 +48,19 @@ class Project_tree extends \Controller
 
 //        $this->updateCacheRecursion(p2a($module->path));
 
-        if ($modulePath) {
-            $this->projectTree = jread($cacheFilePath);
+//        if ($modulePath) {
+//            $this->projectTree = jread($cacheFilePath);
+//
+//            $nodePath = $modulePath;
+//
+//            ap($this->projectTree, $nodePath, $tree);
+//
+//            jwrite($cacheFilePath, $this->projectTree);
+//        } else {
+        jwrite($cacheFilePath, $tree);
 
-            $nodePath = $modulePath;
-
-            ap($this->projectTree, $nodePath, $tree);
-
-            jwrite($cacheFilePath, $this->projectTree);
-        } else {
-            jwrite($cacheFilePath, $tree);
-
-            $this->c('session')->gc($this->modulesPathsFoundOnUpdateCache);
-        }
+        $this->c('session')->gc($this->modulesPathsFoundOnUpdateCache);
+//        }
     }
 
 //    private $module
@@ -68,7 +68,7 @@ class Project_tree extends \Controller
     private function updateCacheRecursion($id = 0)
     {
 //        $modulePath = a2p($modulePathArray);
-$r=0;
+        $r = 0;
         if (isset($this->modulesById[$id])) {
             /* @var $module \ewma\Modules\Module */
             $module = $this->modulesById[$id];
@@ -89,9 +89,8 @@ $r=0;
             ra($node['-']['settings'], $module->toCacheFormat());// $this->getModuleSettings($moduleDir));
 //        }
 
-//            $node['-']['nodes'] = $this->getModuleNodesTree($moduleDir);
-//            $node['-']['models'] = $this->getModuleModelsTree($moduleDir);
-
+            $node['-']['nodes'] = $this->getModuleNodesTree($moduleDir);
+            $node['-']['models'] = $this->getModuleModelsTree($moduleDir);
         }
 
         if (isset($this->modulesIdsByParentIds[$id])) {
@@ -359,7 +358,7 @@ $r=0;
         if (file_exists($module_abs_path . '/settings.php')) {
             $module_config = require $module_abs_path . '/settings.php';
 
-            return $module_config['namespace'];
+            return $module_config['namespace'] ?? '';
         }
     }
 

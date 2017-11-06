@@ -7,7 +7,7 @@ class Nodes_tree extends \Controller
     public function get_nodes_tree($modulePath = false)
     {
         $projectTree = $this->c('@project_tree:getProjectTree');
-        $module = ap($projectTree, $modulePath);
+        $module = ap($projectTree, '/' . $modulePath);
 
         return $module['-']['nodes'];
     }
@@ -15,7 +15,7 @@ class Nodes_tree extends \Controller
     public function get_node_types($modulePath, $nodePath = false)
     {
         $projectTree = $this->c('@project_tree:getProjectTree');
-        $module = ap($projectTree, $modulePath);
+        $module = ap($projectTree, '/' . $modulePath);
 
         if ($nodePath) {
             $node = ap($module, '-/nodes/' . $nodePath);

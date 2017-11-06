@@ -18,6 +18,7 @@ class Main extends \Controller
             $this->nodePath = $s['current_path_by_module'][$this->modulePath];
         } else {
             $this->nodePath = $s['current_path_through_project'];
+            $this->nodePath = 'main';
         }
     }
 
