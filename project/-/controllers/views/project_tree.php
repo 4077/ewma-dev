@@ -29,7 +29,7 @@ class Project_tree extends \Controller
         $this->jquery(':#dev_project_tree')
             ->dev_project_tree([
                                    'scrollTop' => $s['scrollTop'],
-                                   'paths'        => [
+                                   'paths'     => [
                                        'toggle_subnodes' => $this->_p('input/project_tree:toggle_subnodes'),
                                        'set_module_view' => $this->_p('input/set_view:module'),
                                        'input'           => $this->_p('input/project_tree'),
@@ -74,7 +74,11 @@ class Project_tree extends \Controller
             'MODULE_PATH' => $modulePath
         ]);
 
-        $node = ap($this->tree, $modulePath);
+        if ($modulePath) {
+            $node = ap($this->tree, '/' . $modulePath);
+        } else {
+            $node = $this->tree[''];
+        }
 
         $expand = $this->is_expand($modulePath);
 
@@ -82,16 +86,17 @@ class Project_tree extends \Controller
 
         $hasSubnodes = count(diff($nodeKeys, '-', true));
 
-        $class = '';
+        $class = [];
         if (isset($this->sMain['current_module_path']) && $this->sMain['current_module_path'] == $modulePath) {
-            $class .= ' current';
+            $class[] = 'current';
         }
 
-        $class .= ' ' . (isset($node['-']['settings']['type']) ? $node['-']['settings']['type'] : 'master');
+        $class[] = $node['-']['settings']['type'];
+        $class[] = $modulePath ? $node['-']['settings']['location'] : '';
 
         $v->assign('nodes/node', [
             'NAME'                   => $moduleName,
-            'CLASS'                  => $class,
+            'CLASS'                  => implode(' ', $class),
             'INDENT_WIDTH'           => ($this->level + 1) * 16 + 5,
             'INDENT_CLICKABLE_CLASS' => $hasSubnodes ? ' clickable' : '',
             'EXPAND_ICON_CLASS'      => $hasSubnodes ? ($expand ? 'rd_arrow' : 'r_arrow') : 'hidden',
@@ -109,6 +114,8 @@ class Project_tree extends \Controller
             $v->assign('nodes/subnodes', [
                 'HIDDEN_CLASS' => ''
             ]);
+
+            ksort($node);
 
             foreach ($node as $moduleName => $module_data) {
                 if ($moduleName != '-') {

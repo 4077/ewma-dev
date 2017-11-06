@@ -26,13 +26,27 @@ class Project_tree extends \Controller
 
     //
 
+
     private $modulesPathsFoundOnUpdateCache = [];
 
     public function updateCache($modulePath = '')
     {
         $cacheFilePath = $this->_protected('cache', 'modules.json');
 
-        $tree = $this->updateCacheRecursion(p2a($modulePath));
+        $modulesCache = $this->app->cache->read('modules');
+
+        foreach ($modulesCache as $moduleCacheData) {
+            $module = \ewma\Modules\Module::create($moduleCacheData);
+
+            $this->modulesById[$module->id] = $module;
+            $this->modulesIdsByParentIds[$module->parentId][] = $module->id;
+        }
+
+        $tree = $this->updateCacheRecursion();
+
+//        $module = $this->app->modules->getByNamespace($modulePath);
+
+//        $this->updateCacheRecursion(p2a($module->path));
 
         if ($modulePath) {
             $this->projectTree = jread($cacheFilePath);
@@ -49,60 +63,216 @@ class Project_tree extends \Controller
         }
     }
 
-    private function updateCacheRecursion($modulePathArray)
+//    private $module
+
+    private function updateCacheRecursion($id = 0)
     {
-        $modulePath = a2p($modulePathArray);
+//        $modulePath = a2p($modulePathArray);
+$r=0;
+        if (isset($this->modulesById[$id])) {
+            /* @var $module \ewma\Modules\Module */
+            $module = $this->modulesById[$id];
 
-        $this->modulesPathsFoundOnUpdateCache[] = $modulePath;
+            $this->modulesPathsFoundOnUpdateCache[] = $module->path;
 
-        $node = [];
+            $node = [];
 
-        if ($module = $this->app->modules->getByPath($modulePath)) {
-            $modulesDir = $module->location == 'local'
-                ? 'modules'
-                : 'modules-vendor';
+//        $modulesDir = $module->location == 'local'
+//            ? 'modules'
+//            : 'modules-vendor';
 
-            $moduleDir = abs_path($modulePath ? $modulesDir : '', $modulePath);
+            $moduleDir = $module->getDir();// abs_path($modulePath ? $modulesDir : '', $modulePath);
 
             $node['-']['settings'] = ['type' => 'master'];
 
-            if ($modulePathArray) {
-                ra($node['-']['settings'], $this->getModuleSettings($moduleDir));
-            }
+//        if ($modulePath) {
+            ra($node['-']['settings'], $module->toCacheFormat());// $this->getModuleSettings($moduleDir));
+//        }
 
-            $node['-']['nodes'] = $this->getModuleNodesTree($moduleDir);
-            $node['-']['models'] = $this->getModuleModelsTree($moduleDir);
+//            $node['-']['nodes'] = $this->getModuleNodesTree($moduleDir);
+//            $node['-']['models'] = $this->getModuleModelsTree($moduleDir);
 
-            $nestedModulesDir = $modulePath ? $moduleDir : abs_path('modules');
+        }
 
-            $names = [];
+        if (isset($this->modulesIdsByParentIds[$id])) {
+            $nestedModulesIds = $this->modulesIdsByParentIds[$id];
 
-            foreach (new \DirectoryIterator($nestedModulesDir) as $fileInfo) {
-                if ($fileInfo->isDot()) {
-                    continue;
-                }
+            foreach ($nestedModulesIds as $nestedModuleId) {
+                $nestedModule = $this->modulesById[$nestedModuleId];
 
-                if ($fileInfo->isDir()) {
-                    $fileName = $fileInfo->getFilename();
-                    if ($fileName != '-') {
-                        $names[] = $fileName;
-                    }
-                }
-            }
-
-            sort($names);
-
-            foreach ($names as $fileName) {
-                $modulePathArray[] = $fileName;
-
-                $node[$fileName] = $this->updateCacheRecursion($modulePathArray);
-
-                array_pop($modulePathArray);
+//                $node[path_slice($nestedModule->path, -1)] = $this->updateCacheRecursion($nestedModuleId);
+                $node[path_slice($nestedModule->path, -1)] = $this->updateCacheRecursion($nestedModuleId);
             }
         }
 
         return $node;
+
+        /*
+         *
+        $nestedModulesDir = $modulePath ? $moduleDir : abs_path('modules');
+
+        $names = [];
+
+        foreach (new \DirectoryIterator($nestedModulesDir) as $fileInfo) {
+            if ($fileInfo->isDot()) {
+                continue;
+            }
+
+            if ($fileInfo->isDir()) {
+                $dirName = $fileInfo->getFilename();
+                if ($dirName != '-') {
+                    $names[] = $dirName;
+                }
+            }
+        }
+
+        sort($names);
+
+        foreach ($names as $dirName) {
+            $modulePathArray[] = $dirName;
+
+            $node[$dirName] = $this->updateCacheRecursion($modulePathArray);
+
+            array_pop($modulePathArray);
+        }
+
+        */
     }
+
+//    private $modulesPathsFoundOnUpdateCache = [];
+//
+//    public function updateCache($modulePath = '')
+//    {
+//        $cacheFilePath = $this->_protected('cache', 'modules.json');
+//
+//        $module = $this->app->modules->getByNamespace($modulePath);
+//
+//        $tree = $this->updateCacheRecursion(p2a($module->path));
+//
+//        if ($modulePath) {
+//            $this->projectTree = jread($cacheFilePath);
+//
+//            $nodePath = $modulePath;
+//
+//            ap($this->projectTree, $nodePath, $tree);
+//
+//            jwrite($cacheFilePath, $this->projectTree);
+//        } else {
+//            jwrite($cacheFilePath, $tree);
+//
+//            $this->c('session')->gc($this->modulesPathsFoundOnUpdateCache);
+//        }
+//    }
+//
+//    private function updateCacheRecursion($modulePathArray)
+//    {
+//        $modulePath = a2p($modulePathArray);
+//
+//        $module = $this->app->modules->getByPath($modulePath);
+//
+//        $this->modulesPathsFoundOnUpdateCache[] = $module->path;
+//
+//        $node = [];
+//
+////        $modulesDir = $module->location == 'local'
+////            ? 'modules'
+////            : 'modules-vendor';
+//
+//        $moduleDir = $module->getDir();// abs_path($modulePath ? $modulesDir : '', $modulePath);
+//
+//        $node['-']['settings'] = ['type' => 'master'];
+//
+////        if ($modulePath) {
+//            ra($node['-']['settings'], $this->getModuleSettings($moduleDir));
+////        }
+//
+//        $node['-']['nodes'] = $this->getModuleNodesTree($moduleDir);
+//        $node['-']['models'] = $this->getModuleModelsTree($moduleDir);
+//
+//        $nestedModulesDir = $modulePath ? $moduleDir : abs_path('modules');
+//
+//        $names = [];
+//
+//        foreach (new \DirectoryIterator($nestedModulesDir) as $fileInfo) {
+//            if ($fileInfo->isDot()) {
+//                continue;
+//            }
+//
+//            if ($fileInfo->isDir()) {
+//                $dirName = $fileInfo->getFilename();
+//                if ($dirName != '-') {
+//                    $names[] = $dirName;
+//                }
+//            }
+//        }
+//
+//        sort($names);
+//
+//        foreach ($names as $dirName) {
+//            $modulePathArray[] = $dirName;
+//
+//            $node[$dirName] = $this->updateCacheRecursion($modulePathArray);
+//
+//            array_pop($modulePathArray);
+//        }
+//
+//        return $node;
+//    }
+
+//    private function updateCacheRecursion($modulePathArray)
+//    {
+//        $modulePath = a2p($modulePathArray);
+//
+//        $this->modulesPathsFoundOnUpdateCache[] = $modulePath;
+//
+//        $node = [];
+//
+//        if ($module = $this->app->modules->getByPath($modulePath)) {
+//            $modulesDir = $module->location == 'local'
+//                ? 'modules'
+//                : 'modules-vendor';
+//
+//            $moduleDir = abs_path($modulePath ? $modulesDir : '', $modulePath);
+//
+//            $node['-']['settings'] = ['type' => 'master'];
+//
+//            if ($modulePathArray) {
+//                ra($node['-']['settings'], $this->getModuleSettings($moduleDir));
+//            }
+//
+//            $node['-']['nodes'] = $this->getModuleNodesTree($moduleDir);
+//            $node['-']['models'] = $this->getModuleModelsTree($moduleDir);
+//
+//            $nestedModulesDir = $modulePath ? $moduleDir : abs_path('modules');
+//
+//            $names = [];
+//
+//            foreach (new \DirectoryIterator($nestedModulesDir) as $fileInfo) {
+//                if ($fileInfo->isDot()) {
+//                    continue;
+//                }
+//
+//                if ($fileInfo->isDir()) {
+//                    $fileName = $fileInfo->getFilename();
+//                    if ($fileName != '-') {
+//                        $names[] = $fileName;
+//                    }
+//                }
+//            }
+//
+//            sort($names);
+//
+//            foreach ($names as $fileName) {
+//                $modulePathArray[] = $fileName;
+//
+//                $node[$fileName] = $this->updateCacheRecursion($modulePathArray);
+//
+//                array_pop($modulePathArray);
+//            }
+//        }
+//
+//        return $node;
+//    }
 
     // settings
 

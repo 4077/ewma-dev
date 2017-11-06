@@ -1,5 +1,6 @@
 // head {
 @import "../common.less";
+
 // }
 
 #dev_project_tree {
@@ -9,7 +10,7 @@
     & > .content {
 
         .nodes {
-            margin: 1px 0 0 0;
+            margin: 0;
             //        background-color: #EBEBEB;
             font-size: 13px;
 
@@ -46,7 +47,7 @@
                     cursor: pointer;
 
                     &.hover {
-                        background-color: #eeeeee;
+                        background-color: #EEEEEE;
                     }
                 }
             }
@@ -87,7 +88,7 @@
 
                     &.hover {
 
-                        background-color: #f4eff6;
+                        background-color: #F4EFF6;
 
                         .icon {
                             background-image: url("../images/icons_454545.png");
@@ -96,12 +97,31 @@
                 }
             }
 
-            &.master {
-                color: #0b09bc;
+            &.local {
+
+                &.master {
+                    //color: #0B09BC;
+                    color: #000269;
+                    background-color: #C7D7EF;
+                }
+
+                &.slave {
+                    //color: #E60081;
+                    color: #E60081;
+                    background-color: #FFE9F6;
+                }
             }
 
-            &.slave {
-                color: #e60081;
+            &.vendor {
+
+                &.master {
+                    //color: #0B09BC;
+                    color: #002FBB;
+                }
+
+                &.slave {
+                    color: #E60081;
+                }
             }
 
             &.current {
@@ -110,7 +130,7 @@
                 &.hover {
 
                     .buttons {
-                        background-color: #eeeeee;
+                        background-color: #EEEEEE;
                     }
                 }
             }
