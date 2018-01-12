@@ -14,6 +14,7 @@
         "fed/dialogs": "^0.0",
         "fed/ui": "^0.0",
         "fed/ace": "^0.0",
-        "fed/perfect-scrollbar": "^0.0"
+        "fed/perfect-scrollbar": "^0.0",
+        "fed/data-editor": "^0.0"
     }
 }
