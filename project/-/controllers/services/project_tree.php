@@ -81,7 +81,7 @@ class Project_tree extends \Controller
 //            ? 'modules'
 //            : 'modules-vendor';
 
-            $moduleDir = $module->getDir();// abs_path($modulePath ? $modulesDir : '', $modulePath);
+            $moduleDir = $module->dir;// abs_path($modulePath ? $modulesDir : '', $modulePath);
 
             $node['-']['settings'] = ['type' => 'master'];
 

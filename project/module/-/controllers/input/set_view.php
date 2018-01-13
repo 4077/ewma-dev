@@ -2,7 +2,7 @@
 
 class Set_view extends \Controller
 {
-    public $allow = self::XHR;
+    public $allow = self::XHR | self::APP;
 
     private $modulePath;
     private $changeModule = false;

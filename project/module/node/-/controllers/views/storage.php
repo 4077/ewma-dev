@@ -20,7 +20,7 @@ class Storage extends \Controller
             'selected_instance' => ''
         ]);
 
-        $nodeInstances = $this->getNodeInstances();
+        $nodeInstances = $this->getNodeInstances() ?? [];
 
         foreach ($nodeInstances as $nodeInstance) {
 

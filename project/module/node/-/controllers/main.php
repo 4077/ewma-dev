@@ -41,16 +41,35 @@ class Main extends \Controller
             $v = $this->v();
 
             $v->assign([
-                           'TABS'    => $this->c('views/tabs:render', [
-                               'module_path' => $this->modulePath,
-                               'node_path'   => $this->nodePath,
-                               'node_view'   => $this->view
-                           ]),
-                           'CONTENT' => $this->content_view()
+//                           'TABS'    => $this->c('views/tabs:render', [
+//                               'module_path' => $this->modulePath,
+//                               'node_path'   => $this->nodePath,
+//                               'node_view'   => $this->view
+//                           ]),
+'CONTENT' => $this->c('\ewma\dev\ui\node~:view|' . $this->_nodeInstance(), [
+    'module_path' => $this->modulePath,
+    'node_path'   => $this->nodePath,
+    'type'        => $this->view,
+    'callbacks'   => [
+        'typeSelect' => $this->_abs(':onTypeSelect|', [
+            'node_path' => $this->nodePath
+        ]),
+        //                'reload' => $this->_abs(':onNodeReload|', $this->data),
+        //                'update' => $this->_abs(':onUpdate|', $this->data)
+    ]
+])
                        ]);
 
             return $v;
         }
+    }
+
+    public function onTypeSelect()
+    {
+        $this->c('^module input/set_view:node', [
+            'node_path' => $this->data['node_path'],
+            'node_view' => $this->data('type')
+        ]);
     }
 
     private function content_view()
@@ -94,42 +113,51 @@ class Main extends \Controller
 
     private function editor_view($code)
     {
-        $id = k(8);
-
-        $this->c('\ace~:bind',
-                 [
-                     'container_id' => $id,
-                     'mode'         => $this->getEditorMode(),
-                     'code'         => $code
-                 ]);
-
-        $this->js('editor:dev_project_module_editor.bind',
-                  [
-                      'container_id' => $id
-                  ]);
-
-//        $this->c('/plugins/perfect_scrollbar~:bind',
-//                 array(
-//                         'selector' => '#' . $id . ' .ace_scrollbar-v',
-//                         'options'  => array(
-//                                 'useBothWheelAxes' => true
-//                         )
-//                 ));
-//
-//        $this->c('/plugins/perfect_scrollbar~:bind',
-//                 array(
-//                         'selector' => '#' . $id . ' .ace_scrollbar-h',
-//                         'options'  => array(
-//                                 'useBothWheelAxes' => true
-//                         )
-//                 ));
-
-        return $this->c('\std\ui tag:view', [
-            'attrs' => [
-                'id'    => $id,
-                'style' => 'position: absolute; height: 600px; width: 100%;'
+        return $this->c('\ewma\dev\ui\node~:view|' . $this->_nodeInstance(), [
+            'module_path' => $this->modulePath,
+            'node_path'   => $this->nodePath,
+            'callbacks'   => [
+//                'reload' => $this->_abs(':onNodeReload|', $this->data),
+//                'update' => $this->_abs(':onUpdate|', $this->data)
             ]
         ]);
+
+//        $id = k(8);
+//
+//        $this->c('\ace~:bind',
+//                 [
+//                     'container_id' => $id,
+//                     'mode'         => $this->getEditorMode(),
+//                     'code'         => $code
+//                 ]);
+//
+//        $this->js('editor:dev_project_module_editor.bind',
+//                  [
+//                      'container_id' => $id
+//                  ]);
+//
+////        $this->c('/plugins/perfect_scrollbar~:bind',
+////                 array(
+////                         'selector' => '#' . $id . ' .ace_scrollbar-v',
+////                         'options'  => array(
+////                                 'useBothWheelAxes' => true
+////                         )
+////                 ));
+////
+////        $this->c('/plugins/perfect_scrollbar~:bind',
+////                 array(
+////                         'selector' => '#' . $id . ' .ace_scrollbar-h',
+////                         'options'  => array(
+////                                 'useBothWheelAxes' => true
+////                         )
+////                 ));
+//
+//        return $this->c('\std\ui tag:view', [
+//            'attrs' => [
+//                'id'    => $id,
+//                'style' => 'position: absolute; height: 600px; width: 100%;'
+//            ]
+//        ]);
     }
 
     private function create_control_view($type)
