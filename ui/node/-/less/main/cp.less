@@ -1,0 +1,136 @@
+// head {
+@import "../common.less";
+
+@__nodeId__: ~"ewma_dev_ui_node__main_cp";
+// }
+
+.@{__nodeId__} {
+
+    .row_1 {
+        display: flex;
+        background-color: #303030;
+
+        .path {
+            flex-grow: 1;
+            padding: 7px 10px;
+            color: #606060;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .buttons {
+
+            .button {
+                cursor: pointer;
+                float: right;
+                margin: 0;
+                padding: 7px 15px;
+                color: #BBBBBB;
+
+                &.hover {
+                    background-color: #808080;
+                    color: #FFFFFF;
+                }
+            }
+        }
+    }
+
+    .row_2 {
+        display: flex;
+
+        background-color: #404040;
+
+        .tabs {
+            flex-grow: 1;
+
+            .tab {
+                cursor: pointer;
+                float: left;
+                margin: 0;
+                padding: 5px 15px;
+                color: #BBBBBB;
+
+                .icon {
+                    font-size: 13px;
+                    line-height: 12px;
+                    margin-right: 5px;
+                }
+
+                &.has_file {
+                    color: #FFFFFF;
+                }
+
+                &.selected {
+
+                    &.controller {
+                        background-color: @controllers_color;
+                        color: #FFFFFF;
+                    }
+
+                    &.js {
+                        background-color: @js_color;
+                        color: #FFFFFF;
+                    }
+
+                    &.css {
+                        background-color: @css_color;
+                        color: #FFFFFF;
+                    }
+
+                    &.less {
+                        background-color: @less_color;
+                        color: #FFFFFF;
+                    }
+
+                    &.template {
+                        background-color: @templates_color;
+                        color: @templates_dark_color;
+                    }
+
+                    &.session {
+                        background-color: @session_color;
+                        color: #FFFFFF;
+                    }
+
+                    &.storage {
+                        background-color: @storage_color;
+                        color: #FFFFFF;
+                    }
+                }
+
+                &.hover {
+                    background-color: #808080;
+                    color: #FFFFFF;
+                }
+            }
+        }
+
+        .buttons {
+
+            .button {
+                cursor: pointer;
+                float: right;
+                margin: 0;
+                padding: 5px 15px;
+                color: #BBBBBB;
+
+                &.hover {
+                    background-color: #808080;
+                    color: #FFFFFF;
+                }
+            }
+        }
+
+        .locked_info {
+            padding: 5px 15px;
+            color: #FF5400;
+
+            .user {
+                font-weight: bold;
+            }
+        }
+    }
+}

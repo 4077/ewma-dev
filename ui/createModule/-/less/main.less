@@ -1,0 +1,54 @@
+// head {
+@import "../../../../../../../modules-vendor/fed/css/std/-/less/main.less";
+
+@__nodeId__: ~"ewma_dev_ui_createModule__main";
+// }
+
+.@{__nodeId__} {
+
+    .path {
+        display: flex;
+
+        .base {
+            background-color: #404040;
+            color: #FFFFFF;
+            padding: 10px;
+            white-space: nowrap;
+        }
+
+        .tail {
+            flex-grow: 1;
+
+            input {
+                width: 100%;
+                padding: 8px 10px 9px;
+                box-sizing: border-box;
+                box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3) inset;
+                background-color: #EAEAEA;
+                border-radius: 0;
+            }
+        }
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0 0;
+
+        .create_button {
+            .__button;
+
+            &.slave {
+                .purple;
+            }
+
+            &.master {
+                .blue;
+            }
+
+            &.inherited {
+                .orange;
+            }
+        }
+    }
+}
