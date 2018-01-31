@@ -26,6 +26,7 @@ class Cp extends \Controller
         $v->assign([
                        'PATH'     => '/' . $modulePath . ' ' . $nodePath,
                        'IDEA_URL' => "phpstorm://open/?file=" . $nodeFileAbsPath . '&line=1',
+                       'NODE_URL' => abs_url('cp/modules/node/?path=' . $modulePath . ' ' . $nodePath . '&type=' . $nodeType),
                    ]);
 
         $nodeTypes = $svc->getNodeTypes($modulePath, $nodePath);
@@ -64,14 +65,22 @@ class Cp extends \Controller
                     }
 
                     if (!$lockedBy) {
-                        $v->assign('row_2_buttons/save', [
-                            'BUTTON' => $this->c('\std\ui button:view', [
+                        $v->assign('row_2_buttons/apply', [
+                            'SAVE'  => $this->c('\std\ui button:view', [
                                 'path'    => '>xhr:save|',
                                 'data'    => [
                                     'type' => $this->data['type']
                                 ],
                                 'class'   => 'button',
                                 'content' => 'save'
+                            ]),
+                            'RESET' => $this->c('\std\ui button:view', [
+                                'path'    => '>xhr:reset|',
+                                'data'    => [
+                                    'type' => $this->data['type']
+                                ],
+                                'class'   => 'button',
+                                'content' => 'reset'
                             ]),
                         ]);
                     }

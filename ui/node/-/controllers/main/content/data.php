@@ -13,44 +13,45 @@ class Data extends \Controller
 
         $this->smap('~|', 'module_path, node_path, type');
 
-        $type = $this->data('type');
+        if ($module = $this->app->modules->getByPath($this->data['module_path'])) {
+            $type = $this->data('type');
 
-        $dataInstance = path($this->data['module_path'], '_', $this->data['node_path']);
+            $dataInstance = path($this->data['module_path'], '_', $this->data['node_path']);
 
-        $s = &$this->s('|' . $dataInstance, ['node_instance' => '']);
+            $s = &$this->s('|' . $dataInstance, ['node_instance' => '']);
 
-        foreach ($this->getNodeInstances($type) as $nodeInstance) {
-            $requestData = $this->data;
-            $requestData['node_instance'] = $nodeInstance;
+            foreach ($this->getNodeInstances($module, $type) as $nodeInstance) {
+                $requestData = $this->data;
+                $requestData['node_instance'] = $nodeInstance;
 
-            $v->assign('instance', [
-                'SELECT_BUTTON' => $this->c('\std\ui button:view', [
-                    'path'    => '>xhr:selectInstance|',
-                    'data'    => [
-                        'node_instance' => $nodeInstance
-                    ],
-                    'content' => ($nodeInstance ? $nodeInstance : '----') . ($s['node_instance'] == $nodeInstance ? '<----' : '')
-                ])
-            ]);
+                $v->assign('instance', [
+                    'SELECT_BUTTON' => $this->c('\std\ui button:view', [
+                        'path'    => '>xhr:selectInstance|',
+                        'data'    => [
+                            'node_instance' => $nodeInstance
+                        ],
+                        'content' => ($nodeInstance ? $nodeInstance : '----') . ($s['node_instance'] == $nodeInstance ? '<----' : '')
+                    ])
+                ]);
+            }
+
+            $editorInstance = 'dev/sessions/_/' . $dataInstance . '/_/' . $s['node_instance'];
+            $nodePath = '/' . $this->data['module_path'] . ' ' . $this->data['node_path'] . ':|' . $s['node_instance'];
+
+            $v->assign('CONTENT', $this->c('\std\ui\data~:view|' . $editorInstance, [
+                'read_call'  => $this->_abs(':readNode:' . $type . '|', ['path' => $nodePath]),
+                'write_call' => $this->_abs(':writeNode:' . $type . '|', ['path' => $nodePath]),
+                'expand'     => true
+            ]));
         }
-
-        $editorInstance = 'dev/sessions/_/' . $dataInstance . '/_/' . $s['node_instance'];
-        $nodePath = '/' . $this->data['module_path'] . ' ' . $this->data['node_path'] . ':|' . $s['node_instance'];
-
-        $v->assign('CONTENT', $this->c('\std\ui\data~:view|' . $editorInstance, [
-            'read_call'  => $this->_abs(':readNode:' . $type . '|', ['path' => $nodePath]),
-            'write_call' => $this->_abs(':writeNode:' . $type . '|', ['path' => $nodePath]),
-            'expand'     => true
-        ]));
 
         $this->css();
 
         return $v;
     }
 
-    private function getNodeInstances($type)
+    private function getNodeInstances($module, $type)
     {
-        $module = $this->app->modules->getByPath($this->data['module_path']);
         $moduleNamespace = $module->namespace;
 
         $nodeInstances = [];

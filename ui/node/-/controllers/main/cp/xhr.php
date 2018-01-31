@@ -29,23 +29,50 @@ class Xhr extends \Controller
 
         $cache = &$this->d('~:' . $svc->getCachePath($modulePath, $nodePath, $type));
 
-        $filePath = $svc->getNodeFilePath($modulePath, $nodePath, $type);
+        $ownerId = $cache['user'] ?? false;
 
-        write($filePath, $cache['value']);
+        if ($ownerId == $this->_user('id')) {
+            $filePath = $svc->getNodeFilePath($modulePath, $nodePath, $type);
 
-        $cache = null;
+            write($filePath, $cache['value']);
 
-        if ($type == 'js') {
-            $this->jsReset();
-        }
+            $cache = null;
 
-        if ($type == 'less') {
-            $this->lessReset();
+            if ($type == 'js') {
+                $this->jsReset();
+            }
+
+            if ($type == 'less') {
+                $this->lessReset();
+            }
         }
 
         $this->c('~:performCallback:update|');
 
         $this->e('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
+    }
+
+    public function reset()
+    {
+        $this->smap('~|', 'module_path, node_path, type');
+
+        $svc = \ewma\dev\Svc::getInstance();
+
+        $modulePath = $this->data['module_path'];
+        $nodePath = $this->data['node_path'];
+        $type = $this->data['type'];
+
+        $cache = &$this->d('~:' . $svc->getCachePath($modulePath, $nodePath, $type));
+
+        $ownerId = $cache['user'] ?? false;
+
+        if ($ownerId == $this->_user('id')) {
+            $cache = null;
+
+            $this->c('~:performCallback:update|');
+
+            $this->e('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
+        }
     }
 
     public function saveAll()

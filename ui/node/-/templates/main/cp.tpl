@@ -1,7 +1,12 @@
 <div class="{__NODE_ID__}" instance="{__INSTANCE__}">
 
     <div class="row row_1">
-        <a class="path" href="{IDEA_URL}">{PATH}</a>
+        <div class="links">
+            <a class="link idea" href="{IDEA_URL}">{PATH}</a>
+            <a class="link node" href="{NODE_URL}" target="_blank">
+                <span class="icon fa fa-external-link"></span>
+            </a>
+        </div>
 
         <!-- row_1_buttons -->
         <div class="buttons">
@@ -27,8 +32,9 @@
             <!-- row_2_buttons/delete -->
             {BUTTON}
             <!-- / -->
-            <!-- row_2_buttons/save -->
-            {BUTTON}
+            <!-- row_2_buttons/apply -->
+            {RESET}
+            {SAVE}
             <!-- / -->
         </div>
         <!-- / -->

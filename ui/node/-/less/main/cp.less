@@ -10,14 +10,28 @@
         display: flex;
         background-color: #303030;
 
-        .path {
+        .links {
             flex-grow: 1;
-            padding: 7px 10px;
-            color: #606060;
-            text-decoration: none;
 
-            &:hover {
-                text-decoration: underline;
+            .link {
+                float: left;
+                padding: 7px 10px;
+                color: #606060;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+
+                &.node {
+
+                    &:hover {
+
+                        .icon {
+                            color: #CCCCCC;
+                        }
+                    }
+                }
             }
         }
 
