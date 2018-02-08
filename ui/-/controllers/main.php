@@ -72,6 +72,8 @@ class Main extends \Controller
             ]
         ]);
 
+        $this->app->html->setFavicon(abs_url('-/ewma/favicons/dev_modules.png'));
+
         return $v;
     }
 }
