@@ -30,8 +30,13 @@ class Main extends \Controller
 
         if ($module = $this->app->modules->getByPath($modulePath)) {
             $v->assign([
-                           'MODULE_PATH' => $modulePath,
-                           'NODE_PATH'   => $nodePath,
+                           'MODULE_PATH'         => $modulePath,
+                           'NODE_PATH'           => $nodePath,
+                           'UPDATE_CACHE_BUTTON' => $this->c('\std\ui button:view', [
+                               'path'  => '>xhr:updateCache',
+                               'class' => 'update_cache_button',
+                               'icon'  => 'fa fa-refresh'
+                           ])
                        ]);
 
             foreach ($this->getTypes() as $type) {
@@ -75,11 +80,11 @@ class Main extends \Controller
     public function getTemplates($type = false)
     {
         $templates = [
-            'controller' => l2a('app, xhr, svc, router, view, view_reload, view_reload_instance'),
-            'js'         => l2a('object, jquery_plugin, widget, widget_full'),
+            'controller' => l2a('view_reload_instance, app, xhr, svc, router, view, view_reload'),
+            'js'         => l2a('widget, widget_setOption, object, plugin'),
             'css'        => [],
             'less'       => l2a('empty, empty_instance'),
-            'template'   => l2a('empty, empty_instance'),
+            'template'   => l2a('empty_instance, empty'),
         ];
 
         if ($type) {

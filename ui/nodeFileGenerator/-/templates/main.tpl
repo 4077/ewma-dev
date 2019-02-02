@@ -25,4 +25,6 @@
         <!-- / -->
     </div>
 
+    {UPDATE_CACHE_BUTTON}
+
 </div>

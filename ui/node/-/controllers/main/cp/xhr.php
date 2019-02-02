@@ -49,7 +49,7 @@ class Xhr extends \Controller
 
         $this->c('~:performCallback:update|');
 
-        $this->e('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
+        $this->se('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
     }
 
     public function reset()
@@ -71,7 +71,7 @@ class Xhr extends \Controller
 
             $this->c('~:performCallback:update|');
 
-            $this->e('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
+            $this->se('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
         }
     }
 
@@ -112,7 +112,7 @@ class Xhr extends \Controller
 
         $this->c('~:performCallback:update|');
 
-        $this->e('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
+        $this->se('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
     }
 
     public function delete()
@@ -143,9 +143,8 @@ class Xhr extends \Controller
             'type'        => $type
         ]);
 
-        $this->e('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
+        $this->se('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
     }
-
 
     public function deleteAll()
     {
@@ -191,7 +190,7 @@ class Xhr extends \Controller
             'type'        => $this->data('type')
         ]);
 
-        $this->e('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
+        $this->se('ewma/dev/nodeEditor/save/' . $this->_instance())->trigger();
     }
 
     private function jsReset()

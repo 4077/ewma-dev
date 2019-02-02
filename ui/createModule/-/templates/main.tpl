@@ -4,8 +4,9 @@
         <div class="base">
             {BASE_PATH}
         </div>
-        <div class="tail">
-            <input type="text" value="{PATH_TAIL}">
+        <div class="inputs">
+            <input class="tail" type="text" value="{PATH_TAIL}">
+            <input class="namespace" type="text" value="{NAMESPACE}" placeholder="{AUTO_NAMESPACE}">
         </div>
     </div>
 

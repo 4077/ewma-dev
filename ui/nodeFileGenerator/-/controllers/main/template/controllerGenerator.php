@@ -37,7 +37,7 @@ class ControllerGenerator extends AbstractGeneratorController
         $nodePathArray = p2a($this->nodePath);
 
         $className = end($nodePathArray);
-        $className = strtoupper(substr($className, 0, 1)) . substr($className, 1);
+        $className = ucfirst($className);
 
         return $className;
     }

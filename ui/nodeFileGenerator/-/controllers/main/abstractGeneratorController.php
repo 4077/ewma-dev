@@ -26,8 +26,6 @@ abstract class AbstractGeneratorController extends \Controller
 
             $this->c('\ewma~cache:reset', ['autoload' => true]);
 
-            \ewma\dev\Svc::getInstance()->updateCache();
-
             $this->c('~')->performCallback('generate', [
                 'module_path' => $this->modulePath,
                 'node_path'   => $this->nodePath,

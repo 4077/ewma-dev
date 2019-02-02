@@ -27,4 +27,9 @@ class Xhr extends \Controller
 
         $this->c('~:reload', [], true);
     }
+
+    public function updateCache()
+    {
+        \ewma\dev\Svc::getInstance()->updateCache();
+    }
 }

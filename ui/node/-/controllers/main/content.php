@@ -47,7 +47,7 @@ class Content extends \Controller
 
     private function editorView($code, $readonly)
     {
-        return $this->c('\ace~:view', [
+        return $this->c('\js\ace~:view|' . $this->_nodeInstance(), [
             'path'     => '>xhr:update|',
             'data'     => [
                 'type' => $this->data['type']

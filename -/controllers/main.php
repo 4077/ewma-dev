@@ -166,10 +166,7 @@ class Main extends \Controller
         exec('mysqldump -u ' . $user . ' -p' . $pass . ' ' . $name . ' > ' . $filePath);
 
         foreach (l2a($this->data('recipients')) as $recipient) {
-            /**
-             * @var $mailer \std\mailer\Mailer
-             */
-            $mailer = $this->c('\std\mailer~:get');
+            $mailer = mailer('mailers:dev');
 
             $mailer->AddAddress($recipient);
 
@@ -189,11 +186,14 @@ class Main extends \Controller
     public function exec()
     {
         if ($this->isSuperuser()) {
-            $cwd = getcwd();
+            $command = $this->data('command');
 
+            $cwd = getcwd();
             chdir(app()->root);
-            exec($this->data('command'), $output);
+            exec($command, $output);
             chdir($cwd);
+
+            $this->log('exec: ' . $command);
 
             return $output;
         }

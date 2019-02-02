@@ -75,9 +75,11 @@ class Cp extends \Controller
                                 'content' => 'save'
                             ]),
                             'RESET' => $this->c('\std\ui button:view', [
-                                'path'    => '>xhr:reset|',
-                                'data'    => [
-                                    'type' => $this->data['type']
+                                'ctrl'    => [
+                                    'path' => '>xhr:reset|',
+                                    'data' => [
+                                        'type' => $this->data['type']
+                                    ]
                                 ],
                                 'class'   => 'button',
                                 'content' => 'reset'
@@ -90,9 +92,11 @@ class Cp extends \Controller
                     $v->assign('row_2_buttons/delete', [
                         'BUTTON' => $this->c('\std\ui button:view', [
                             'visible' => file_exists($nodeFileAbsPath),
-                            'path'    => '>xhr:delete|',
-                            'data'    => [
-                                'type' => $this->data['type']
+                            'ctrl'    => [
+                                'path' => '>xhr:delete|',
+                                'data' => [
+                                    'type' => $this->data['type']
+                                ]
                             ],
                             'class'   => 'button',
                             'content' => 'delete'
@@ -129,9 +133,11 @@ class Cp extends \Controller
 
         $v->assign('row_1_buttons/delete', [
             'BUTTON' => $this->c('\std\ui button:view', [
-                'path'    => '>xhr:deleteAll|',
-                'data'    => [
-                    'type' => $this->data['type']
+                'ctrl'    => [
+                    'path' => '>xhr:deleteAll|',
+                    'data' => [
+                        'type' => $this->data['type']
+                    ]
                 ],
                 'class'   => 'button',
                 'content' => 'delete'
@@ -140,8 +146,8 @@ class Cp extends \Controller
 
         $this->css(':common');
 
-        $this->e('ewma/dev/nodeEditor/update/' . $this->data('type') . '/' . $this->_instance())->rebind(':reload|');
-        $this->e('ewma/dev/nodeEditor/save/' . $this->_instance())->rebind(':reload|');
+        $this->se('ewma/dev/nodeEditor/update/' . $this->data('type') . '/' . $this->_instance())->rebind(':reload|');
+        $this->se('ewma/dev/nodeEditor/save/' . $this->_instance())->rebind(':reload|');
 
         return $v;
     }

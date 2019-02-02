@@ -24,7 +24,7 @@ class Xhr extends \Controller
                 'value' => $this->data('value')
             ]);
 
-            $this->e('ewma/dev/nodeEditor/update/' . $this->data('type') . '/' . $this->_instance())->trigger();
+            $this->se('ewma/dev/nodeEditor/update/' . $this->data('type') . '/' . $this->_instance())->trigger();
         } else {
             $this->c('~:reload|');
         }
