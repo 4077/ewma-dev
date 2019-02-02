@@ -10,11 +10,6 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "fed/ewma-module-installer-plugin": "~0.0.1",
-        "fed/dialogs": "^0.0",
-        "fed/ui": "^0.0",
-        "fed/ace": "^0.0",
-        "fed/perfect-scrollbar": "^0.0",
-        "fed/data-editor": "^0.0"
+        "fed/ewma-module-installer-plugin": "~0.0.1"
     }
 }
