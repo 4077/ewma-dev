@@ -1,5 +1,5 @@
 {
-    "name": "fed/dev",
+    "name": "fed/ewma-dev",
     "type": "ewma-module",
     "description": "ewma dev",
     "authors": [
