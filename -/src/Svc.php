@@ -91,9 +91,9 @@ class Svc extends \ewma\service\Service
             foreach ($nestedModulesIds as $nestedModuleId) {
                 $nestedModule = $this->modulesById[$nestedModuleId];
 
-                $path_slice = path_slice($nestedModule->path, -1);
+                $moduleName = path_slice($nestedModule->path, -1);
 
-                ap($node, $path_slice, $this->updateCacheRecursion($nestedModuleId));
+                ap($node, $moduleName, $this->updateCacheRecursion($nestedModuleId));
             }
         }
 

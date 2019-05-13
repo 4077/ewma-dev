@@ -21,12 +21,12 @@ class App extends \Controller
         if ($type = $this->data('type')) {
             $s['type_by_module'][$modulePath] = $type;
             $commonS['type'] = $type;
-
-            $this->c('~|')->performCallback('select', [
-                'module_path' => $modulePath,
-                'node_path'   => $nodePath,
-                'type'        => $type
-            ]);
         }
+
+        $this->c('~|')->performCallback('select', [
+            'module_path' => $modulePath,
+            'node_path'   => $nodePath,
+            'type'        => $commonS['type']
+        ]);
     }
 }

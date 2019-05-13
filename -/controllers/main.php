@@ -125,6 +125,17 @@ class Main extends \Controller
         return 'data editors reset';
     }
 
+    public function resetUi()
+    {
+        $this->s('ui~', [
+            'selected_module_path' => false,
+            'selected_node_path'   => false,
+            'selected_node_type'   => false
+        ], RA);
+
+        return 'modules ui reset';
+    }
+
     private function sessionQueryConds($builder)
     {
         if ($this->dataHas('i') || $this->dataHas('instance')) {

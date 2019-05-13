@@ -71,64 +71,66 @@ class Main extends \Controller
 
         $node = ap($this->tree, $modulePath);
 
-        $expand = $this->isExpand($modulePath);
+        if (empty($node['-']['settings']['virtual'])) {
+            $expand = $this->isExpand($modulePath);
 
-        $nodeKeys = array_keys($node);
+            $nodeKeys = array_keys($node);
 
-        $hasSubnodes = count(diff($nodeKeys, '-', true));
+            $hasSubnodes = count(diff($nodeKeys, '-', true));
 
-        $class = [];
-        if ($this->data('selected_module_path') == $modulePath) {
-            $class[] = 'current';
-        }
+            $class = [];
+            if ($this->data('selected_module_path') == $modulePath) {
+                $class[] = 'current';
+            }
 
-        $class[] = $node['-']['settings']['type'];
-        $class[] = $modulePath ? $node['-']['settings']['location'] : '';
+            $class[] = $node['-']['settings']['type'];
+            $class[] = $modulePath ? $node['-']['settings']['location'] : '';
 
-        $v->assign('nodes/node', [
-            'NAME'                   => $moduleName,
-            'CLASS'                  => implode(' ', $class),
-            'INDENT_WIDTH'           => ($this->level + 1) * 16 + 5,
-            'INDENT_CLICKABLE_CLASS' => $hasSubnodes ? ' clickable' : '',
-            'EXPAND_ICON_CLASS'      => $hasSubnodes ? ($expand ? 'rd_arrow' : 'r_arrow') : 'hidden',
-            'MARGIN_LEFT'            => ($this->level) * 16 + 5,
-            'NAME_MARGIN_LEFT'       => ($this->level + 1) * 16 + 5,
-            'CREATE_BUTTON'          => $this->c('\std\ui button:view', [
-                'path'  => '>xhr:create|',
-                'data'  => [
-                    'module_path' => $modulePath
-                ],
-                'class' => 'create button',
-                'icon'  => 'fa fa-plus'
-            ]),
-            'DELETE_BUTTON'          => $this->c('\std\ui button:view', [
-                'path'  => '>xhr:delete|',
-                'data'  => [
-                    'module_path' => $modulePath
-                ],
-                'class' => 'delete button',
-                'icon'  => 'fa fa-trash'
-            ])
-        ]);
-
-        if ($expand) {
-            $v->assign('nodes/subnodes', [
-                'HIDDEN_CLASS' => ''
+            $v->assign('nodes/node', [
+                'NAME'                   => $moduleName,
+                'CLASS'                  => implode(' ', $class),
+                'INDENT_WIDTH'           => ($this->level + 1) * 16 + 5,
+                'INDENT_CLICKABLE_CLASS' => $hasSubnodes ? ' clickable' : '',
+                'EXPAND_ICON_CLASS'      => $hasSubnodes ? ($expand ? 'rd_arrow' : 'r_arrow') : 'hidden',
+                'MARGIN_LEFT'            => ($this->level) * 16 + 5,
+                'NAME_MARGIN_LEFT'       => ($this->level + 1) * 16 + 5,
+                'CREATE_BUTTON'          => $this->c('\std\ui button:view', [
+                    'path'  => '>xhr:create|',
+                    'data'  => [
+                        'module_path' => $modulePath
+                    ],
+                    'class' => 'create button',
+                    'icon'  => 'fa fa-plus'
+                ]),
+                'DELETE_BUTTON'          => $this->c('\std\ui button:view', [
+                    'path'  => '>xhr:delete|',
+                    'data'  => [
+                        'module_path' => $modulePath
+                    ],
+                    'class' => 'delete button',
+                    'icon'  => 'fa fa-trash'
+                ])
             ]);
 
-            ksort($node);
+            if ($expand) {
+                $v->assign('nodes/subnodes', [
+                    'HIDDEN_CLASS' => ''
+                ]);
 
-            foreach ($node as $moduleName => $moduleData) {
-                if ($moduleName != '-') {
-                    $modulePathArray[] = $moduleName;
-                    $this->level++;
+                ksort($node);
 
-                    $v->assign('nodes/subnodes/subnode', [
-                        'CONTENT' => $this->treeViewRecursion($modulePathArray)
-                    ]);
+                foreach ($node as $moduleName => $moduleData) {
+                    if ($moduleName != '-') {
+                        $modulePathArray[] = $moduleName;
+                        $this->level++;
 
-                    $this->level--;
-                    array_pop($modulePathArray);
+                        $v->assign('nodes/subnodes/subnode', [
+                            'CONTENT' => $this->treeViewRecursion($modulePathArray)
+                        ]);
+
+                        $this->level--;
+                        array_pop($modulePathArray);
+                    }
                 }
             }
         }
