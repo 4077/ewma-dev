@@ -250,9 +250,18 @@ class Svc extends \ewma\service\Service
         }
     }
 
+    public function getModuleRealPath($modulePath)
+    {
+        $modulesTree = \ewma\dev\Svc::getInstance()->getModulesTree();
+
+        $moduleCache = ap($modulesTree, $modulePath);
+
+       return ap($moduleCache, '-/settings/path');
+    }
+
     public function getNodeFilePath($modulePath, $nodePath, $type)
     {
-        if ($module = app()->modules->getByPath($modulePath)) {
+        if ($module = app()->modules->getByPath($this->getModuleRealPath($modulePath))) {
             $filePath = abs_path($module->dir, '-', $this->getTypeDir($type), $nodePath . '.' . $this->getTypeExtension($type));
 
             return $filePath;

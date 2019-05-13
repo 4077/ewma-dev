@@ -13,10 +13,12 @@ class Data extends \Controller
 
         $this->smap('~|', 'module_path, node_path, type');
 
-        if ($module = $this->app->modules->getByPath($this->data['module_path'])) {
+        $moduleRealPath = $this->getModuleRealPath($this->data('module_path'));
+
+        if ($module = $this->app->modules->getByPath($moduleRealPath)) {
             $type = $this->data('type');
 
-            $dataInstance = path($this->data['module_path'], '_', $this->data['node_path']);
+            $dataInstance = path($moduleRealPath, '_', $this->data['node_path']);
 
             $s = &$this->s('|' . $dataInstance, ['node_instance' => '']);
 
@@ -36,7 +38,7 @@ class Data extends \Controller
             }
 
             $editorInstance = 'dev/sessions/_/' . $dataInstance . '/_/' . $s['node_instance'];
-            $nodePath = '/' . $this->data['module_path'] . ' ' . $this->data['node_path'] . ':|' . $s['node_instance'];
+            $nodePath = '/' . $moduleRealPath . ' ' . $this->data['node_path'] . ':|' . $s['node_instance'];
 
             $v->assign('CONTENT', $this->c('\std\ui\data~:view|' . $editorInstance, [
                 'read_call'  => $this->_abs(':readNode:' . $type . '|', ['path' => $nodePath]),
@@ -48,6 +50,15 @@ class Data extends \Controller
         $this->css();
 
         return $v;
+    }
+
+    private function getModuleRealPath($modulePath)
+    {
+        $modulesTree = \ewma\dev\Svc::getInstance()->getModulesTree();
+
+        $moduleCache = ap($modulesTree, $modulePath);
+
+        return ap($moduleCache, '-/settings/path');
     }
 
     private function getNodeInstances($module, $type)

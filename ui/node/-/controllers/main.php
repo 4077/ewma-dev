@@ -37,7 +37,7 @@ class Main extends \Controller
 
         $this->css();
 
-        $this->e('ewma/dev/nodeEditor/typeSet/' . $this->_instance())->rebind(':reload|');
+        $this->se('ewma/dev/nodeEditor/typeSet/' . $this->_instance())->rebind(':reload|');
 
         return $v;
     }
