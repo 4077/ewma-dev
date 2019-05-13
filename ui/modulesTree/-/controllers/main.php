@@ -8,7 +8,11 @@ class Main extends \Controller
     {
         $this->s = &$this->s('|', [
             'expand_nodes'         => [],
-            'selected_module_path' => null
+            'selected_module_path' => null,
+            'display'              => [
+                'local'  => true,
+                'vendor' => false
+            ]
         ]);
 
         $this->smap('|', 'selected_module_path');
@@ -71,7 +75,25 @@ class Main extends \Controller
 
         $node = ap($this->tree, $modulePath);
 
-        if (empty($node['-']['settings']['virtual'])) {
+        $settings = $node['-']['settings'];
+
+        $display = $this->s['display'];
+
+        if (empty($modulePathArray)) {
+            $visible = true;
+        } else {
+            $visible = empty($settings['virtual']);
+
+            if ($settings['location'] == 'local') {
+                $visible &= $display['local'];
+            }
+
+            if ($settings['location'] == 'vendor') {
+                $visible &= $display['vendor'];
+            }
+        }
+
+        if ($visible) {
             $expand = $this->isExpand($modulePath);
 
             $nodeKeys = array_keys($node);
@@ -83,8 +105,8 @@ class Main extends \Controller
                 $class[] = 'current';
             }
 
-            $class[] = $node['-']['settings']['type'];
-            $class[] = $modulePath ? $node['-']['settings']['location'] : '';
+            $class[] = $settings['type'];
+            $class[] = $modulePath ? $settings['location'] : '';
 
             $v->assign('nodes/node', [
                 'NAME'                   => $moduleName,

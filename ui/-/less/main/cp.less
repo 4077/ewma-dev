@@ -1,0 +1,66 @@
+// head {
+@__nodeId__: ~"ewma_dev_ui__main_cp";
+// }
+
+.@{__nodeId__} {
+    @buttonSize: 28px;
+
+    cursor: pointer;
+    min-height: @buttonSize;
+    position: relative;
+
+    height: @buttonSize;
+    background-color: #404040;
+
+    .location_buttons {
+        display: flex;
+
+        .toggle_location_button {
+            cursor: pointer;
+            //width: @buttonSize;
+            height: @buttonSize;
+
+            padding: 0 5px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .icon {
+                padding: 3px 6px;
+                border-radius: 2px;
+                font-size: 10px;
+
+                background-color: #505050;
+                color: #909090;
+            }
+
+            &.enabled {
+
+                &.local {
+
+                    .icon {
+                        background-color: #39a2d6;
+                        color: #ffffff;
+                    }
+                }
+
+                &.vendor {
+
+                    .icon {
+                        background-color: #ffda74;
+                        color: #4e2907;
+                    }
+                }
+            }
+
+            &:hover {
+                background-color: #5D5D5D;
+            }
+        }
+    }
+
+    &:hover {
+
+    }
+}

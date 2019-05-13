@@ -26,6 +26,7 @@ class Main extends \Controller
         $s = $this->s();
 
         $v->assign([
+                       'MODULES_CP'    => $this->c('>cp:view|' . $this->_nodeInstance()),
                        'MODULES_WIDTH' => $s['modules_width'],
                        'NODES_WIDTH'   => $s['nodes_width'],
                        'MODULES'       => $this->c('\ewma\dev\ui\modulesTree~:view|' . $this->_nodeInstance(), [
@@ -35,7 +36,7 @@ class Main extends \Controller
                            ]
                        ], 'selected_module_path'),
                        'NODES'         => $this->c('\ewma\dev\ui\nodesTree~:view|' . $this->_nodeInstance(), [
-                           'dialogs'     => 'ewma/dev',//
+                           'dialogs'     => 'ewma/dev',
                            'module_path' => $this->data['selected_module_path'],
                            'node_path'   => $this->data['selected_node_path'],
                            'type'        => $this->data['selected_node_type'],
