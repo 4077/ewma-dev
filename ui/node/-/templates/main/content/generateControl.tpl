@@ -2,12 +2,9 @@
 
     <!-- if template -->
     <div class="content">
-
         <!-- template -->
         {BUTTON}
         <!-- / -->
-
-        <div class="cb"></div>
     </div>
     <!-- / -->
 

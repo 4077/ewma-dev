@@ -10,39 +10,53 @@
         background-color: #f0f0f0;
         padding: 15px;
 
+        display: flex;
+
         .create_template_button {
             cursor: pointer;
-            float: left;
-            margin: 1px;
-            padding: 5px 15px;
+            padding: 8px 15px;
             font-size: 11px;
 
             color: #ffffff;
 
             &.controller {
                 background-color: @controllers_color;
+                border-right: 1px solid darken(@controllers_color, 5%);
             }
 
             &.js {
                 background-color: @js_color;
+                border-right: 1px solid darken(@js_color, 6%);
             }
 
             &.css {
                 background-color: @css_color;
+                border-right: 1px solid darken(@css_color, 5%);
             }
 
             &.less {
                 background-color: @less_color;
+                border-right: 1px solid darken(@less_color, 7%);
             }
 
             &.template {
                 background-color: @templates_color;
                 color: @templates_dark_color;
+                border-right: 1px solid darken(@templates_color, 15%);
             }
 
             &.hover {
                 background-color: #404040;
                 color: #bdff00;
+            }
+
+            &:first-child {
+                border-radius: 3px 0 0 3px;
+            }
+
+            &:last-child {
+                border-radius: 0 3px 3px 0;
+                border: 0;
             }
         }
     }
