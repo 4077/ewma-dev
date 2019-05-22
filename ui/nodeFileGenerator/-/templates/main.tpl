@@ -14,12 +14,9 @@
         <!-- if type/template -->
         <div class="name">{NAME}</div>
         <div class="buttons">
-
             <!-- type/template -->
             {BUTTON}
             <!-- / -->
-
-            <div class="cb"></div>
         </div>
         <!-- / -->
         <!-- / -->

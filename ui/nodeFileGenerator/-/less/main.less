@@ -10,10 +10,11 @@
         display: flex;
 
         .module_path {
-            background-color: #404040;
+            background-color: #5a5a5a;
             color: #FFFFFF;
             padding: 10px;
             white-space: nowrap;
+            font-weight: bold;
         }
 
         .node_path {
@@ -21,9 +22,9 @@
 
             input {
                 width: 100%;
-                padding: 8px 10px 9px;
+                padding: 10px 10px 9px;
                 box-sizing: border-box;
-                box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3) inset;
+                box-shadow: 4px 3px 6px rgba(0, 0, 0, 0.2) inset;
                 background-color: #EAEAEA;
                 border-radius: 0;
             }
@@ -31,19 +32,20 @@
     }
 
     .types {
-        margin-top: 10px;
+        padding: 5px 10px 10px;
 
         .name {
-            margin: 10px 0 5px;
+            margin: 8px 2px 5px;
             font-weight: bold;
         }
 
         .buttons {
+            display: flex;
 
             .generate_button {
                 cursor: pointer;
-                float: left;
-                margin-right: 1px;
+                //float: left;
+                //margin-right: 1px;
                 padding: 8px 15px;
                 //padding: 5px 15px;
                 font-size: 11px;
@@ -52,28 +54,42 @@
 
                 &.controller {
                     background-color: @controllers_color;
+                    border-right: 1px solid darken(@controllers_color, 5%);
                 }
 
                 &.js {
                     background-color: @js_color;
+                    border-right: 1px solid darken(@js_color, 6%);
                 }
 
                 &.css {
                     background-color: @css_color;
+                    border-right: 1px solid darken(@css_color, 5%);
                 }
 
                 &.less {
                     background-color: @less_color;
+                    border-right: 1px solid darken(@less_color, 7%);
                 }
 
                 &.template {
                     background-color: @templates_color;
                     color: @templates_dark_color;
+                    border-right: 1px solid darken(@templates_color, 15%);
                 }
 
                 &.hover {
                     background-color: #404040;
                     color: #bdff00;
+                }
+
+                &:first-child {
+                    border-radius: 3px 0 0 3px;
+                }
+
+                &:last-child {
+                    border-radius: 0 3px 3px 0;
+                    border: 0;
                 }
             }
         }
