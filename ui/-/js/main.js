@@ -8,25 +8,22 @@ var __nodeNs__ = "ewma_dev_ui";
         options: {},
 
         _create: function () {
-            var widget = this;
-            var $widget = this.element;
-            var options = widget.options;
+            var w = this;
+            var o = w.options;
+            var $w = w.element;
 
-            var $modules = $("> .modules", $widget);
-            var $nodes = $("> .nodes", $widget);
+            var $modules = $("> .modules > .tree", $w);
+            var $nodes = $("> .nodes", $w);
 
-            $modules.scrollLeft(options.viewports.modules.scroll[0]).scrollTop(options.viewports.modules.scroll[1]);
-            $nodes.scrollLeft(options.viewports.nodes.scroll[0]).scrollTop(options.viewports.nodes.scroll[1]);
+            $modules.scrollLeft(o.viewports.modules.scroll[0]).scrollTop(o.viewports.modules.scroll[1]);
+            $nodes.scrollLeft(o.viewports.nodes.scroll[0]).scrollTop(o.viewports.nodes.scroll[1]);
 
             var scrollTimeout;
 
             $modules.rebind("scroll." + __nodeId__, function () {
-                if (scrollTimeout) {
-                    clearTimeout(scrollTimeout);
-                }
-
+                clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(function () {
-                    request(options.paths.updateViewport, {
+                    request(o.paths.updateViewport, {
                         viewport: 'modules',
                         scroll:   {
                             top:  $modules.scrollTop(),
@@ -37,12 +34,9 @@ var __nodeNs__ = "ewma_dev_ui";
             });
 
             $nodes.rebind("scroll." + __nodeId__, function () {
-                if (scrollTimeout) {
-                    clearTimeout(scrollTimeout);
-                }
-
+                clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(function () {
-                    request(options.paths.updateViewport, {
+                    request(o.paths.updateViewport, {
                         viewport: 'nodes',
                         scroll:   {
                             top:  $nodes.scrollTop(),
